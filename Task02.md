@@ -1,3 +1,5 @@
+<div align="justify">
+  
 # I. SSL
 ## 1. SSL là gì?
 SSL là chứng chỉ kỹ thuật số đảm bảo tính bảo mật, an toàn trong quá trình truyền dữ liệu giữa trình duyệt web và máy chủ.
@@ -125,7 +127,9 @@ Khi mail được gửi đến domain.com sẽ được gửi tới mail1.domain
 - DKIM cho phép người nhận kiểm tra xem email được xác nhận từ một tên miền cụ thể có thực sự được chủ sở hữu uy quyền hay không? Nó sẽ gắn chữ ký điện tử, được liên kết với tên miền vào mỗi email gửi đi.
 - Các email được ký bằng DKIM dường như hợp pháp hơn đối với người nhận và ít có khả năng chuyển đến các thư mục Rác hoặc Spam. Giả mạo email từ các miền đáng tin cậy là một kỹ thuật phổ biến cho các chiến dịch spam và lừa đảo độc hại. Và DKIM khiến việc giả mạo email từ các miền sử dụng nó trở nên khó khăn hơn.
 - DKIM tương thích với cơ sở hạ tầng email hiện có, hoạt động với SPF và DMARC để tạo nhiều lớp bảo mật cho các miền gửi email. Máy chủ thư không hỗ trợ chữ ký DKIM vẫn có thể nhận các thư đã ký mà không gặp bất kỳ sự cố nào. Đó là một giao thức bảo mật tùy chọn và DKIM không phải là một tiêu chuẩn được áp dụng phổ biến
-- DKIM sử dụng các bản ghi DNS dưới dạng TXT record với định dạng đặc biệt. Khi cặp khóa riêng / chung được tạo, khóa chung được thêm vào DNS của tên miền. Ví dụ:
+- DKIM sử dụng các bản ghi DNS dưới dạng TXT record với định dạng đặc biệt. Khi cặp khóa riêng / chung được tạo, khóa chung được thêm vào DNS của tên miền.
+- Ví dụ:
+
 `pm._domainkey.domain.com IN TXT “k=rsa\; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDOCTHqIIQhGNISLchxDvv2X8NfkW7MEHGmtawoUgVUb8V1vXhGikCwYNqFR5swP6UCxCutX81B3+5SCDJ3rMYcu3tC/E9hd1phV+cjftSFLeJ+xe+3xwK+V18kM46kBPYvcZ/38USzMBa0XqDYw7LuMGmYf3gA/yJhaexYXa/PYwIDAQAB”`
 
 **SPF**
@@ -194,3 +198,4 @@ Hiện nay, DNS có bảy loại bản ghi, bao gồm:
 8. https://stackoverflow.com/questions/9971464/how-to-convert-crt-cetificate-file-to-pfx
 9. https://vietnix.vn/dkim-la-gi/
 10. https://vietnix.vn/tao-txt-spf-record/#cach-tao-txt-spf-record-nhanh-chong
+</div>
