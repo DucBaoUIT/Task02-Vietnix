@@ -39,11 +39,15 @@ Sau khi hoàn thành cài đặt thực hiện login vào website
 </div>
 - Vào server -> tiến hành trỏ vào thư mục của Laravel -> Thực hiện lệnh sau 
 `composer install`
+- Sau đó, tạo application key qua lệnh : `php artisan key:generate`
+- Cấp quyền cho các file cần thiết 
+`chmod -R 775 storage`
+`chmod -R 775 bootstrap/cache`
 - Chạy Website và xem hiển thị 
 
 <div align="center">
 
-![image](https://github.com/user-attachments/assets/9aaffad3-b6d0-4331-978f-be659385be42)
+![image](https://github.com/user-attachments/assets/4b6ae7e8-8989-484f-9914-ef97f99d1cfb)
 
 </div>
 
