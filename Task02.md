@@ -187,7 +187,314 @@ Hiện nay, DNS có bảy loại bản ghi, bao gồm:
 - Máy chủ DNS cấp cao nhất sẽ trả về địa chỉ IP của máy chủ DNS quản lý website. Máy chủ DNS quản lý sẽ trả về địa chỉ IP của trang web cho máy chủ DNS cục bộ.
 - Cuối cùng, máy chủ DNS cục bộ sẽ trả về địa chỉ IP của trang web cho máy tính của người dùng. Máy tính của người dùng sẽ sử dụng địa chỉ IP này để kết nối với website.
 
-# V. Tài liệu tham khảo
+# V. ping/hping3 ping đến domain vietnix.vn sau đó giải thích
+## 1. ttl= là gì
+**Đối với "ping"**
+TTL=53 (Time To Live = 53): TTL trong Ping chính là chỉ số Hop (Router, Gateway) biểu thị các thông tin liên quan đến khả năng truyền dữ liệu và phản hồi. Ngoài ra, nó còn giúp ngăn chặn sự trùng lặp các gói ICMP giữa các Host trên Internet khi truyền dẫn. Chỉ số TTL càng cao, chỉ số Hop khi truyền tín hiệu càng bé, thời gian càng thấp, độ trễ được giảm đáng kể, từ đó giúp cho đường truyền ổn định. 
+time= 3.16 -> 7.92: Thời gian truyền nhận tín hiệu 
+
+**Đối với hping3**
+`hping3 --traceroute -V -1 vietnix.vn0`
+Trong đó:
+- Tag "-V" là verbose mode
+- tag "1" là icmp mode
+TTL=0 
+time=5.5ms đối với gateway, 26.3ms đối với localhost.
+
+# VI. SSH command
+## 1. Dùng password
+- Đối với password, người dùng sẽ kết nối bình thường qua cú pháp sau:
+`ssh username@ip_server`
+- Khi này nếu như là lần đầu nguời dùng kết nối với server thì server sẽ yêu cầu nhập password và Enter
+
+## 2. Dùng key 
+- Nếu sử dụng key để kết nối SSH với server, phải đảm báo server đẫ có key xác thực của nguời dùng. Để kết nối qua key, nguời dùng thực hiện câu lệnh:
+`ssh -i '/path/to/keyfile' username@ip_server`
+- /path/to/keyfile: là đường dẫn tới file key trên máy tính
+
+## 3. Dùng port custom
+- Tương tự với câu lệnh dùng password nhưng người dùng cần phải thêm trường "-p" với số port mong muốn. (Giả định port là 2222)
+`ssh -p 2222 username@ip_server`
+
+# VII. SCP Command
+## 1. SCP 1 file
+- Copy 1 file từ máy chủ lên server 
+`scp file.txt username@ip_server:/path/to/directory`
+- Copy 1 file từ server xuống máy chủ
+`scp username@ip_server:/path/to/directory/file.txt "~/path/"`
+- SCP 1 file giữa 2 server 
+`scp user1@host1.com:/files/file.txt user2@host2.com:/files`
+
+## 2. SCP 1 folder
+- Copy 1 folder ta sẽ thêm option -r vào câu lệnh
+`scp -r directory username@ip_server:/path/to/directory`
+- Đối với folder quá nặng cần nén lại ta sẽ thêm option -C
+`scp -C -r directory username@ip_server/com:/path/to/directory`
+
+# VII. RSYNC Command
+## 1. rsync file
+- Để rsync 1 file vào 1 thư mục, nguwoif dùng thực hiện cú pháp sau 
+`rsync options /path/to/source/file.txt /path/to/destination/`
+Trogn đó, có các options tùy chọn như: 
+-v : verbose
+-r : sao chép dữ liệu theo cách đệ quy ( không bảo tồn mốc thời gian và permission trong quá trình truyền dữ liệu)
+-a :chế độ lưu trữ cho phép sao chép các tệp đệ quy và giữ các liên kết, quyền sở hữu, nhóm và mốc thời gian
+-z : nén dữ liệu
+-h : định dạng số
+
+## 2. rsync folder
+- Thực hiện tương tự như rsync 1 file, chỉ thay đường dẫn thư mục
+`rsync options /path/to/source/folder/ /path/to/destination/folder/`
+
+## 3. rsync increamental
+- Có 2 cách để tạo backup rsync increamental. Đối với nâng cao nguwoif dùng sẽ sử dụng bash script, đối với cơ bản người dùng sẽ sử dụng cú pháp sau:
+`rsync -av /source/ /backup/`
+- Sau khi chạy lệnh này rsync sẽ bỏ qua những file không thay đổi.
+
+# VIII. Cat Command
+## 1. Cat nội dung 1 file
+- Thực hiện cú pháp:
+`cat options /path/to/destination/file.txt`
+- Trong đó, options có thể là 
+-n để xem số dòng
+-T để phân biệt tab và space
+-e để hiển thị ký tự cuối dòng
+-s để loại bỏ dòng trống dư thừa
+-A để kết hợp -e, -T, -V
+
+## 2. Cat dòng thứ <n> trong file
+- Để cat đúng 1 dòng được chỉ định duy nhất, ta sẽ sử dụng sed thay vì cat (Giả định cat dòng 5):
+`sed -n '5{p;q;}' filename` 
+
+## 3. Cat nhiều dòng vào 1 file bằng EOF
+cat <<EOF > filename.txt
+Nội dung dòng 1
+Nội dung dòng 2
+EOF
+
+# IX. Echo command
+## 1. Dùng echo để chèn thêm 1 dòng vào cuối file
+- Thêm kí tự "\n"
+`echo -e 'nVietnix' >> /tmp/file.txt`
+
+## 2. Dùng echo để overwirte nội dung của file
+- Sử dụng 1 dấu mũi tên ">"
+`echo "foo" > bar.txt`
+
+# X. tail/head command
+## 1. tail và tailf
+- Tail được sử dụng để hiện thị phần cưới tập tin
+`tail options /path/to/file.txt`
+Có nhiều options như:
+-n: hiển thị số dòng ở dòng cuối
+-c: in ra dung lượng file
+-f: được sử dụng để phát triển
+-v: dữ liệu chỉ định tên file được đi trước 
+
+- Tailf được sử dụng để hiển thị nội dung file trong thời gian thực, thường được sử dụng cho file log 
+`tailf /var/log/syslog`
+
+# XI. Sed command
+## 1. Dùng sed để find and replace một string trong file
+- Để đồng thời find và replace bằng sed:
+`sed -i 's/old_s/new_s/g' file.txt`
+-i: Chỉnh sửa trực tiếp
+s: viết tắt của substitue
+g: thay thế tất cả các dòng
+
+# XII. traceroute/tracert command
+## 1. Sau khi traceroute xong giải thích chi tiết kết quả trả về
+![trace](https://github.com/user-attachments/assets/d2f8a8f6-eb18-465f-82f8-05fd20c4bd6c)
+Thực hiện traceroute đến 8.8.8.8 và thu được kết quả như sau:
+_gateway (192.168.0.1)	Router trong mạng nội bộ 
+localhost (27.71.251.149)	Thiết bị của ISP (Viettel)
+10.255.39.249 / 10.255.39.245	Mạng nội bộ của nhà mạng (Viettel)
+* * *	Gói tin bị chặn hoặc mất tín hiệu ở hop này
+localhost (27.68.237.140 ...)	Các node trung gian khác trong mạng Viettel
+dynamic-ip-adsl.viettel.vn ...	Điểm cuối của Viettel trước khi ra mạng quốc tế
+72.14.195.97	Router của Google (mạng quốc tế)
+* * *	Một router của Google không phản hồi ICMP (bình thường)
+dns.google (8.8.8.8)	Mục tiêu cuối: máy chủ DNS của Google
+
+# XIII. Netstat command
+## 1. Hiển thị socket đang listen 
+`netstat -l`
+
+## 2. Don't resolve hostname
+`netstat -n` : chỉ hiển thị IP và port 
+
+## 3. Display process name/PID
+`netstat -p`: hiển thị tên tiến trình và PID của tiến trình đang sử dụng socket
+
+## 4. Only show tcp socket
+`netstat -t`: Chỉ hiển thị TCP 
+
+## 5. Only show udp socket
+'netstat -u`: Chỉ hiển thị UDP
+
+# XIV. Sort command
+## 1. Sort theo thứ tự tăng dần
+`sort filename`
+## 2. Sort theo thứ tự giảm dần
+`sort -r filename`
+## 3. Sort theo column
+`sort -k N filename`
+-k N: sort theo cột thứ N. Cột được tính bắt đầu từ 1
+
+# XV. Uniq command
+## 1. Lọc ra các dòng lặp lại trong một file
+`uniq -d filename`
+
+## 2. Lọc ra các dòng lặp lại trong file và đếm số lượng các dòng lặp lại
+`uniq -c filename`
+
+# XVI.  WC command
+- Đếm số dòng trong file: `wc -l filename`
+- Đếm số kí tự trong file: `wc -l filename`
+
+# XVII. chmod, chown, chattr command
+## 1. Phân quyền bằng số, phân quyền bằng chữ
+Cách phân quyền bằng số (octal):
+Quyền gồm:
+Read (r) = 4
+Write (w) = 2
+Execute (x) = 1
+Tổng quyền mỗi nhóm là tổng các giá trị trên.
+Ví dụ: `chmod 755 /path/file.txt`
+
+Cách phân quyền bằng chữ: `chmod u=rwx,g=rx,o=rx filename`
+
+## 2. Đổi owner user/group
+`chown user:group filename`
+
+## 3. Immutable
+`chattr +i filename `: Không thể thay đổi file 
+`chattr -i filename` : Có thể thay đổi file
+
+# XVIII. find command
+- find các file có đuôi .log: `find /path/-type f -name "*.log"`
+- find các folder có tên abc: `find /path/ -type d -name "abc"`
+- find các file có tên abc: `find /path/ -type f -name "abc"`
+- find các file có tên abc và thực hiện phần quyền read only cho file: `find /path/ -type f -name "abc" -exec chmod 444 {} \;`
+
+# XIX. cp command
+- cp file: `cp source_file destination_file`
+- cp folder: `cp -r source_folder destination_folder`
+
+# XX. mv command 
+## 1. MV file or folder 
+`mv source_file/source_folder destination_path`
+
+# XXI. cut command
+- Lấy kí tự thứ <n> trong string (Giả định lấy kí tự thứ 3)
+`echo "string" | cut -c 3`
+- Lấy từ kí tự thứ <n> trở về sau: `echo "abcdef" | cut -c 3- `
+- Lấy từ kí tự đầu đến kí tự thứ <n>: `echo "abcdef" | cut -c -3   # output: abc`
+
+# XXII. dig command
+- Dùng Dig command để kiểm tra resolv record A, MX, NS
+`dig example.com A`
+`dig example.com MX`
+`dig example.com NS`
+
+- Dùng Dig command để kiểm tra resolv record A, MX, NS với custom DNS
+`dig @dns_server example.com A`
+`dig @8.8.8.8 example.com MX`
+`dig @1.1.1.1 example.com NS`
+
+# XXIII. tar, zip, unzip commands
+# 1. Nén/Giải nén file tar.gz
+- Nén tar.gz 
+`tar -czvf archive_name.tar.gz folder_or_file`
+- Giải nén tar.gz:
+`tar -xzvf archive_name.tar.gz`
+# 2. file zip 
+- Nén file/folder zip:
+`zip -r archive_name.zip folder_or_file`
+- Giải nén zip:
+`unzip archive_name.zip`
+
+# XXIV. mount / umount commands
+## 1. Thêm ổ cứng /dev/sdb ~ 5GB:
+- Định dạng ổ 
+sudo mkfs.ext4 /dev/sdb1 
+sudo mkdir /mnt/test
+- Tạo thư mục mount point
+sudo mount /dev/sdb1 /mnt/test
+
+## 2. Kiểm tra có bao nhiêu ổ cứng trên máy chủ:
+`lsblk`
+`sudo fdisk -l`
+
+## 3. Mount ổ cứng vào /mnt/test:
+`sudo mount /dev/sdb1 /mnt/test`
+
+## 4. Unmount /mnt/test:
+`sudo umount /mnt/test`
+
+# XXX. Symbolic Links và Hard Links
+## Symbolic Link (Symlink):
+- Là file đặc biệt chứa đường dẫn đến file hoặc thư mục khác.
+- Có thể liên kết file hoặc thư mục nằm trên phân vùng khác.
+- Nếu file gốc bị xóa, symlink sẽ bị hỏng (broken link).
+## Hard Link:
+- Là một đường dẫn tham chiếu trực tiếp đến inode của file.
+- Chỉ có thể tạo hard link trong cùng một phân vùng.
+- Nếu file gốc bị xóa, dữ liệu vẫn tồn tại nếu hard link còn.
+
+## Ví dụ tạo Symbolic Link:
+`ln -s /path/to/original/file /path/to/symlink`
+
+## Ví dụ tạo Hard Link:
+`ln /path/to/original/file /path/to/hardlink`
+
+# XXXI. ls command
+- Liệt kê danh sách file/thư mục: `ls`
+- Liệt kê danh sách file/thư mục và thuộc tính chi tiết: `ls -l`
+- Hiện file ẩn (bắt đầu bằng dấu chấm . ): `ls -a`
+
+# XXXII. ps command
+- Hiện tiến trình đang chạy: `ps`
+- Hiện đầy đủ tiến trình: `ps aux`
+- Kill tiến trình (theo PID): `kill PID`
+- Kill tiến trình ngay lập tức: `kill -9 PID`
+
+# XXXIII. top command 
+- Kiểm tra tài nguyên CPU, RAM đang sử dụng của các process: `top`
+
+![top](https://github.com/user-attachments/assets/e4aa1c8d-c83d-4ec6-8ee7-76138187f142)
+
+- Giải thích một số thông số:
+Load average: Trung bình tải hệ thống trong 1, 5, 15 phút. Giá trị càng thấp càng tốt.
+us (user): % CPU dùng bởi user process (người dùng).
+sy (system): % CPU dùng bởi kernel process (hệ thống).
+ni (nice): % CPU dùng bởi tiến trình có độ ưu tiên thay đổi.
+id (idle): % CPU không sử dụng.
+wa (wait): % CPU chờ I/O.
+hi (hardware interrupts): % CPU xử lý ngắt phần cứng.
+si (sofware interrupts): % CPU xử lý ngắt phần mềm.
+st (steal time): % CPU bị ảo hóa “đánh cắp” (khi chạy trên máy ảo).
+Zombie process: tiến trình đã chết nhưng chưa được tiến trình cha thu dọn.
+Sleeping process: tiến trình đang chờ tài nguyên hoặc sự kiện.
+
+# XXXIV. free command
+- Kiểm tra bộ nhớ RAM: `free -h`
+Giải thích:
+used: RAM đang được sử dụng.
+free: RAM còn trống.
+shared: RAM chia sẻ giữa các tiến trình.
+buff/cache: RAM dùng để cache, buffer, giúp tăng tốc I/O.
+available: RAM khả dụng cho ứng dụng mới.
+
+# XXXV. df command
+- Xem dung lượng disk hiện tại: `df -h`
+
+![image](https://github.com/user-attachments/assets/cdc04883-bd19-4a9b-84f0-311824a0a54a)
+
+- Phân vùng / là gì: Dấu / là thư mục gốc (root directory), chứa toàn bộ hệ thống file trên Linux.
+Phân vùng / chứa các thư mục hệ thống như /bin, /etc, /home, /usr,...
+
+# XVI. Tài liệu tham khảo
 1. https://azdigi.com/blog/huong-dan/chung-chi-ssl/chung-chi-ssl-la-gi-va-co-bao-nhieu-loai/
 2. https://kb.pavietnam.vn/csr-la-gi-1-so-thong-tin-trong-csr.html
 3. https://vietnix.vn/tao-csr-de-dang-ky-ssl/
@@ -198,4 +505,5 @@ Hiện nay, DNS có bảy loại bản ghi, bao gồm:
 8. https://stackoverflow.com/questions/9971464/how-to-convert-crt-cetificate-file-to-pfx
 9. https://vietnix.vn/dkim-la-gi/
 10. https://vietnix.vn/tao-txt-spf-record/#cach-tao-txt-spf-record-nhanh-chong
+11. https://www.ionos.com/digitalguide/server/configuration/linux-scp-command/
 </div>
