@@ -38,6 +38,7 @@ Sau khi hoàn thành cài đặt thực hiện login vào website
 ![Giainen](https://github.com/user-attachments/assets/226c38d1-c73e-47ae-bfdd-6fe0ef8af8e7)
   
 </div>
+
 - Vào server -> tiến hành trỏ vào thư mục của Laravel -> Thực hiện lệnh sau 
 `composer install`
 - Sau đó, tạo application key qua lệnh : `php artisan key:generate`
