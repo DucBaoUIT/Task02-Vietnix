@@ -11,6 +11,7 @@
  ![AAPanel_Login](https://github.com/user-attachments/assets/609c8f44-0af4-4609-9ef5-b33ee5fc954a)
 
  </div>
+ 
 ## 2. Thực hiện tải WordPress từ AAPanel
 *Cài đặt bằng WP-Toolkit*
 - Vào WP-Toolkit -> Add và ddienf thoogn tin trang WordPress cần cấu hình 
