@@ -100,3 +100,35 @@ Có các trường hợp sau có thể sử dụng LiteSpeed Cache
 - Khi muốn tận dụng tối đa hiệu năng nhờ cache cấp máy chủ thay vì chỉ là cache qua PHP.
 - Khi dùng dịch vụ hosting có hỗ trợ sẵn LiteSpeed (nhiều hosting cPanel hiện nay dùng LiteSpeed).
 - Khi cần hiệu năng cao cho website có lượng truy cập lớn
+
+# V. Cài đặt SSL
+## 1. Lấy chứng chỉ từ Zero SSL 
+- Vào trang SSLForFree để tiến hành đăng ký tài khoản và sử dụng chứng chỉ ZeroSSL, điền và cài đtặ theo hướng dẫn thu được 2 file zip SSL cho 2 site
+
+<div align="center">
+
+![SSLAll](https://github.com/user-attachments/assets/d7c3daee-6ff4-45c7-9264-6fe5de87de54)
+
+</div>
+
+## 2. Gán chứng chỉ vào các website 
+
+- Vào AAPanel, Vào website cần cấu hình, tại mục SSL dán các thoogn tin tương ứng và mở Force HTTPS
+
+<div align="center>
+
+![image](https://github.com/user-attachments/assets/deb4d779-7855-4bf4-9fd0-4e63173dd103)
+
+</div>
+
+- Truy cập vào các website để kiểm tra
+
+<div align="center">
+ 
+![image](https://github.com/user-attachments/assets/341b6223-d65f-4a00-af1d-779fb801f0fc)
+
+![image](https://github.com/user-attachments/assets/a2ffea2c-86af-45f7-ae34-4bbcb71c701a)
+
+</div>
+
+
