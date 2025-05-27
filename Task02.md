@@ -304,7 +304,11 @@ g: thay thế tất cả các dòng
 
 # XII. traceroute/tracert command
 ## 1. Sau khi traceroute xong giải thích chi tiết kết quả trả về
+<div align="center">
+
 ![trace](https://github.com/user-attachments/assets/d2f8a8f6-eb18-465f-82f8-05fd20c4bd6c)
+
+</div>
 Thực hiện traceroute đến 8.8.8.8 và thu được kết quả như sau:
 _gateway (192.168.0.1)	Router trong mạng nội bộ 
 localhost (27.71.251.149)	Thiết bị của ISP (Viettel)
@@ -461,8 +465,11 @@ sudo mount /dev/sdb1 /mnt/test
 
 # XXXIII. top command 
 - Kiểm tra tài nguyên CPU, RAM đang sử dụng của các process: `top`
+<div align="center">
 
 ![top](https://github.com/user-attachments/assets/e4aa1c8d-c83d-4ec6-8ee7-76138187f142)
+
+</div>
 
 - Giải thích một số thông số:
 Load average: Trung bình tải hệ thống trong 1, 5, 15 phút. Giá trị càng thấp càng tốt.
@@ -479,7 +486,10 @@ Sleeping process: tiến trình đang chờ tài nguyên hoặc sự kiện.
 
 # XXXIV. free command
 - Kiểm tra bộ nhớ RAM: `free -h`
-Giải thích:
+
+![image](https://github.com/user-attachments/assets/8a0ceb2b-ebc1-4193-bb41-3e1ca231be4a)
+
+- Giải thích:
 used: RAM đang được sử dụng.
 free: RAM còn trống.
 shared: RAM chia sẻ giữa các tiến trình.
@@ -489,8 +499,11 @@ available: RAM khả dụng cho ứng dụng mới.
 # XXXV. df command
 - Xem dung lượng disk hiện tại: `df -h`
 
+<div align="center">
+  
 ![image](https://github.com/user-attachments/assets/cdc04883-bd19-4a9b-84f0-311824a0a54a)
 
+</div>
 - Phân vùng / là gì: Dấu / là thư mục gốc (root directory), chứa toàn bộ hệ thống file trên Linux.
 Phân vùng / chứa các thư mục hệ thống như /bin, /etc, /home, /usr,...
 
