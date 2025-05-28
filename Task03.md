@@ -113,7 +113,7 @@ Có các trường hợp sau có thể sử dụng LiteSpeed Cache
 
 ## 2. Gán chứng chỉ vào các website 
 
-- Vào AAPanel, Vào website cần cấu hình, tại mục SSL dán các thoogn tin tương ứng và mở Force HTTPS
+- Vào AAPanel, Vào website cần cấu hình, tại mục SSL dán các thông tin tương ứng và mở Force HTTPS
 
 <div align="center>
 
