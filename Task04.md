@@ -112,3 +112,22 @@ Hoặc alias trực tiếp bằng cách thêm dòng sau vào file cấu hình ap
 
 # III. Thử nghiệm
 ## 1. Tắt thử Apache và chạy Website
+Thực hiện tắt Apache và truy cập các trang web
+
+![image](https://github.com/user-attachments/assets/e8d3657d-92e9-41b0-8214-fe17518eb13c)
+
+=> Từ đó có thể thấy rằng việc tắt đi Apache khiến cho Nginx không thể xử lý các file động (.php) vì:
+- Nginx trong mô hình này chỉ làm reverse proxy, không xử lý PHP trực tiếp.
+- Nó chuyển tiếp request (thực hiện proxy-pass) sang Apache (port 8080/8443) nơi có mod_php và PHP interpreter.
+
+## 2. Tắt Nginx và chạy website
+Thực hiện tăt Nginx và truy cập 
+
+![image](https://github.com/user-attachments/assets/e0e61140-083f-4488-8b4c-43047099dc36)
+
+
+=> Apache vẫn xử lý bình thường, bao gồm:
+- Render file PHP (WordPress, Laravel)
+- Trả file tĩnh (JS, CSS, ảnh)
+- Apache vẫn hoạt động bình thường nếu Nginx bị tắt, vì nó trực tiếp xử lý các request và có module PHP chạy sẵn.
+
