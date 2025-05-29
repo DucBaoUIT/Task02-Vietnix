@@ -2,6 +2,15 @@
 ## 1. Apache
 - Trước tiên, ta sẽ đổi port lắng nghe của Apache để tránh xung đột với nginx (Sử dụng 2 port 8080 và 8081 để tránh xung đột)
 `echo -e "Listen 8080\nListen 8081" | sudo tee -a /etc/apache2/ports.conf`
+
+FastCGI là phiên bản kế tiếp của CGI, ít tốn tài nguyên CPU và cho tốc độ tải trang php cao, với điều kiện cần một lượng RAM đủ lớn. FastCGI cho phép máy chủ xử lý được nhiều web page hơn tại cùng một thời điểm. PHP-FPM giúp quản lý tiến trình PHP FastCGI
+- Thực hiện cài đặt cấu hình Apache để sử dụng PHP_FPM. Trước tiên cần phải bật "Mod Actions"
+`a2enmod actions`
+- Tiến hành thay đổi tên file cấu hình mặc định và tạo file config mới cho FastCGI
+`sudo mv /etc/apache2/mods-enabled/fastcgi.conf /etc/apache2/mods-enabled/fastcgi.conf.default`
+
+![image](https://github.com/user-attachments/assets/c6c9cfa4-1dba-4fe8-9452-e8217560520c)
+
 - Thực hiện cấu hình Virtual Host cho 2 website
 
 **WordPress**
@@ -17,7 +26,7 @@
 
 `systemctl reload apache2`
 
-**InfoPHP**
+## 2. InfoPHP
 Tạo file phpinfo() cho từng trang web để có thể kiểm tra xem PHP có được cấu hình đúng hay không:
 `echo "<?php phpinfo(); ?>" | sudo tee /var/www/wp.bao.vietnix.tech/info.php`
 
@@ -27,16 +36,18 @@ Truy cập vào các trang web để xem thoogn tin php:
 1. laravel.bao.vietnix.tech/info.php
 2. wp.bao.vietnix.tech/info.php
 
-## 2. Cấu hình Nginx
-Cấu hình Nginx làm Reverse Proxy
-
+## 3. Cấu hình Nginx
+*Cấu hình Nginx làm Reverse Proxy*
+Khi Nginx chuyển tiếp các yêu cầu cho các tên miền của Apache, Apache sẽ gửi mọi yêu cầu file cho tên miền đó đến Apache. Nginx hoạt động nhanh hơn Apache trong việc phục vụ các static files như hình ảnh, JavaScript và Stylesheets. Vì vậy, hãy cấu hình file virtual server apache của Nginx để phục vụ các static files một cách trực tiếp, nhưng gửi các yêu cầu PHP cho Apache xử lý.
+-> Thêm các mục location cần thiết 
+ 
 **WordPress**
 
-![nginxWP](https://github.com/user-attachments/assets/10798b84-af97-44af-86ba-33bec3f027e9)
+![image](https://github.com/user-attachments/assets/71f729ff-c2ba-4116-a6cc-f6bc0c3d707a)
 
 **Laravel**
 
-![nginLa](https://github.com/user-attachments/assets/c1bdc484-f970-451a-8a95-f027a7acdefc)
+![image](https://github.com/user-attachments/assets/0598b1cd-e404-4688-b4aa-a0cf2a0f4907)
 
 - Kích hoạt website và restart lại nginx và chạy các web site
 1. http://laravel.bao.vietnix.tech
@@ -44,7 +55,22 @@ Cấu hình Nginx làm Reverse Proxy
 3. http://wp.bao.vietnix.tech
 4. https://wp.bao.vietnix.tech
 
-## 3. Tại sao Nginx đứng trước Apache
+## 4. Cấu hình mod_rpaf
+Module này sẽ viết lại các giá trị của REMOTE_ADDR, HTTPS và HTTP_PORT dựa trên các giá trị được cung cấp bởi một reverse proxy.
+Nếu không có module này, một số ứng dụng PHP sẽ yêu cầu thay đổi mã để có thể hoạt động ngầm mượt mà phía sau proxy.
+Thực hiện cài đặt như sau:
+1. `wget https://github.com/gnif/mod_rpaf/archive/stable.zip`
+2. `unzip stable.zip`
+3. `cd mod_rpaf-stable`
+4. `make`
+5. `sudo make install`
+
+Tiếp theo, cấu hình file rpaf.conf và rpaf.load để phù hợp với thông tin máy chủ
+Cuối cùng vào domain/info.php và kiểm tra trường IP "REMOTE_ADDR" để thấy được IP công khai của máy tính
+
+![image](https://github.com/user-attachments/assets/99332f53-93be-4e75-8175-28e8d54452c1)
+
+## 5. Tại sao Nginx đứng trước Apache
 - Nginx có thể được đặt trước Apache dưới dạng proxy ngược. Điều này tận dụng tốc độ xử lý nhanh của Nginx để xử lý tất cả các yêu cầu từ người dùng. Đối với nội dung động, chẳng hạn như các tệp PHP, Nginx cung cấp yêu cầu cho Apache, xử lý kết quả và trả về trang được hiển thị. Dẫn đến việc Nginx đứng trước giúp giảm tải rất lớn cho Apache.
 - Nginx có hệ thống reverse proxy/load balancer với cấu hình đơn giản, dễ mở rộng giú Nginx dễ dàng giao tiếp với nhiều Backend khác nhau (WordPress, Laravel)
 - Nginx hỗ trợ cấu hình SSL mạnh mẽ, dễ dàng tích hợp tốt với Let’s Encrypt và nhiều định dạng SSL khác nhau, xử lý TLS nhanh và ổn định hơn.
