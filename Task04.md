@@ -1,7 +1,7 @@
 # I. Xây dựng reverse proxy 
 ## 1. Apache
-- Trước tiên, ta sẽ đổi port lắng nghe của Apache để tránh xung đột với nginx (Sử dụng 2 port 8080 và 8081 để tránh xung đột)
-`echo -e "Listen 8080\nListen 8081" | sudo tee -a /etc/apache2/ports.conf`
+- Trước tiên, ta sẽ đổi port lắng nghe của Apache để tránh xung đột với nginx (Sử dụng 2 port 8080 cho HTTP và 8443 cho HTTPS)
+`echo -e "Listen 8080\nListen 8443" | sudo tee -a /etc/apache2/ports.conf`
 
 FastCGI là phiên bản kế tiếp của CGI, ít tốn tài nguyên CPU và cho tốc độ tải trang php cao, với điều kiện cần một lượng RAM đủ lớn. FastCGI cho phép máy chủ xử lý được nhiều web page hơn tại cùng một thời điểm. PHP-FPM giúp quản lý tiến trình PHP FastCGI
 - Thực hiện cài đặt cấu hình Apache để sử dụng PHP_FPM. Trước tiên cần phải bật "Mod Actions"
@@ -15,11 +15,11 @@ FastCGI là phiên bản kế tiếp của CGI, ít tốn tài nguyên CPU và c
 
 **WordPress**
   
-![ApacheWP](https://github.com/user-attachments/assets/065f33a4-35fd-48e8-809a-6de4a660a14e)
+![image](https://github.com/user-attachments/assets/88a91e23-b69d-4544-96f4-7554c3a4aea2)
 
 **Laravel**
 
-![ApacheLaravel](https://github.com/user-attachments/assets/5d7cf74d-1f9a-47e1-9c3e-9f2f1f6cda77)
+![image](https://github.com/user-attachments/assets/660c5162-cda2-4123-90ba-cc62293b24e9)
 
 - Bật các site và Reload lại Apache2
 `a2ensite website`
@@ -43,11 +43,11 @@ Khi Nginx chuyển tiếp các yêu cầu cho các tên miền của Apache, Apa
  
 **WordPress**
 
-![image](https://github.com/user-attachments/assets/71f729ff-c2ba-4116-a6cc-f6bc0c3d707a)
+![image](https://github.com/user-attachments/assets/9bcf4936-6f1a-44b1-80fe-0257a3be6599)
 
 **Laravel**
 
-![image](https://github.com/user-attachments/assets/0598b1cd-e404-4688-b4aa-a0cf2a0f4907)
+![image](https://github.com/user-attachments/assets/04b2592f-e300-4b7f-b237-2ecba5a37a3f)
 
 - Kích hoạt website và restart lại nginx và chạy các web site
 1. http://laravel.bao.vietnix.tech
@@ -110,3 +110,5 @@ Hoặc alias trực tiếp bằng cách thêm dòng sau vào file cấu hình ap
 
 ![laravelphpmyadm](https://github.com/user-attachments/assets/963dd4dd-de6d-4825-8dbb-a78c5d3d8fd7)
 
+# III. Thử nghiệm
+## 1. Tắt thử Apache và chạy Website
