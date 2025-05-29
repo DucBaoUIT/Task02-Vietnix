@@ -23,6 +23,10 @@ Tạo file phpinfo() cho từng trang web để có thể kiểm tra xem PHP có
 
 `echo "<?php phpinfo(); ?>" | sudo tee /var/www/laravel.bao.vietnix.tech/info.php`
 
+Truy cập vào các trang web để xem thoogn tin php:
+1. laravel.bao.vietnix.tech/info.php
+2. wp.bao.vietnix.tech/info.php
+
 ## 2. Cấu hình Nginx
 Cấu hình Nginx làm Reverse Proxy
 
@@ -39,6 +43,12 @@ Cấu hình Nginx làm Reverse Proxy
 2. https://laravel.bao.vietnix.tech
 3. http://wp.bao.vietnix.tech
 4. https://wp.bao.vietnix.tech
+
+## 3. Tại sao Nginx đứng trước Apache
+- Nginx có thể được đặt trước Apache dưới dạng proxy ngược. Điều này tận dụng tốc độ xử lý nhanh của Nginx để xử lý tất cả các yêu cầu từ người dùng. Đối với nội dung động, chẳng hạn như các tệp PHP, Nginx cung cấp yêu cầu cho Apache, xử lý kết quả và trả về trang được hiển thị. Dẫn đến việc Nginx đứng trước giúp giảm tải rất lớn cho Apache.
+- Nginx có hệ thống reverse proxy/load balancer với cấu hình đơn giản, dễ mở rộng giú Nginx dễ dàng giao tiếp với nhiều Backend khác nhau (WordPress, Laravel)
+- Nginx hỗ trợ cấu hình SSL mạnh mẽ, dễ dàng tích hợp tốt với Let’s Encrypt và nhiều định dạng SSL khác nhau, xử lý TLS nhanh và ổn định hơn.
+
 # II. MySQL và phpMyAdmin
 ## 1. MySQL
 - Sau khi upload source code vào thư mục của các website cần phải tạo các Database tương ứng để chạy. Thực hiện tạo 2 database theo mẫu sau:
