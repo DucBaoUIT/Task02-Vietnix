@@ -43,7 +43,7 @@ Khi Nginx chuyển tiếp các yêu cầu cho các tên miền của Apache, Apa
  
 **WordPress**
 
-![image](https://github.com/user-attachments/assets/9bcf4936-6f1a-44b1-80fe-0257a3be6599)
+![image](https://github.com/user-attachments/assets/19fa8f73-c2a1-4abf-88fa-5dfae5707f25)
 
 **Laravel**
 
